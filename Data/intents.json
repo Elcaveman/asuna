@@ -1,0 +1,1 @@
+{"intents": [{"tag": "pain chest", "patterns": ["My chest hurts", "my lungs are in pain", "i feel pain when breathing"], "responses": []}, {"tag": "shortness of breath", "patterns": ["i need to focus on breathing", "i lose breath rapidly", "my stamina suddenly became low"], "responses": []}]}

@@ -1,0 +1,206 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hey",
+        "How are you",
+        "Is anyone there?",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hey :), How are you feeling?",
+        "Hello, thanks for visiting. Where does it hurt?",
+        "Hi there, what seems to be the matter?",
+        "Hi there, how can I help?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "See you later", "Goodbye"],
+      "responses": [
+        "See you later, thanks for visiting",
+        "Have a nice day",
+        "Bye! Come back again soon."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "That's helpful", "Thank's a lot!"],
+      "responses": ["Happy to help!", "Any time!", "My pleasure"]
+    },
+    {
+      "tag": "headache",
+      "patterns": [
+        "I have a headache",
+        "My head hurts",
+        "head pain",
+        "pain"
+      ],
+      "responses": [
+        "Is it Primary headache or Secondary headache?",
+        "Is it occasional or a sudden onset of headache?"
+      ]
+    },
+    {
+      "tag": "primary",
+      "patterns": [
+        "It is occasional",
+        "It happens from time to time",
+        "Yes, it's occasional",
+        "Primary",
+        "yes, it's a primary headache"
+      ],
+      "responses": [
+        "You probably have Tension headaches. It is the most common type of primary headache. Tension headaches occur more commonly among women than men",
+        "You probably have Migraine headaches. It is the second most common type of primary headache. Migraine headaches affect children as well as adults. Before puberty, boys and girls are affected equally by migraine headaches, but after puberty, more women than men are affected",
+        "You probably have Cluster headaches. It is a rare type of primary headache. It more commonly affects men in their late 20s, though women and children can also suffer from this type of headache"
+      ]
+    },
+    {
+      "tag": "secondary",
+      "patterns": [
+        "a sudden onset of headache",
+        "It is a sudden headache",
+        "It happened suddenly",
+        "secondary headache",
+        "It is a secondary headache"
+      ],
+      "responses": [
+        "How long has this been worrying you? Please answer with a number",
+        "How long has this been bothering you? Please answer with a number"
+      ]
+    },
+    {
+      "tag": "days",
+      "patterns": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "responses": [
+        "You may have Secondary headaches. They are those that are due to an underlying structural or infectious problem in the head or neck. This is a very broad group of medical conditions ranging from dental pain from infected teeth or pain from an infected sinus, to life-threatening conditions like bleeding in the brain or infections like encephalitis or meningitis. Traumatic headaches fall into this category including post-concussion headaches. You should see your doctor as soon as possible."
+      ]
+    },
+    {
+      "tag": "stomachache",
+      "patterns": [
+        "It hurts in my stomach",
+        "I have a stomachache",
+        "I woke up with stomach cramps",
+        "stomach cramps",
+        "I have an abdominal pain"
+      ],
+      "responses": [
+        "How do you rate your pain ? Please choose one of the following answers: Acute pain , Chronic pain , Progressive pain"
+      ]
+    },
+    {
+      "tag": "acute",
+      "patterns": [
+        "acute",
+        "acute pain"
+      ],
+      "responses": [
+        "If your stomach cramps have started recently and you also have diarrhoea, the cause may be a tummy bug (gastroenteritis). This means you have a viral or bacterial infection of the stomach and bowel. It should get better without treatment after a few days.",
+        "You may have constipation. It is common and affects people of all ages. You can usually treat it at home with simple changes to your diet and lifestyle. The most common causes include: not eating enough fibre, not drinking enough fluids, not moving enough and spending long periods sitting or lying in bed, often ignoring the urge to go to the toilet, changing your diet or daily routine, a side effect of medicine, stress, anxiety or depression.",
+        "you may have Indigestion. Usually, it's not a sign of anything more serious and you can treat it yourself. There are some things you can do at home: cut down on tea, coffee, cola or alcohol, prop your head and shoulders up in bed this can stop stomach acid coming up while you sleep, lose weight if you're overweight. A pharmacist can recommend medicines to ease the burning feeling or pain that can come with indigestion.",
+        "You may have flatulence. Flatulence or wind is usually nothing to worry about. Everyone farts, some people more than others. The average is 5 to 15 times a day. If you notice a change or it's affecting your life, there are things you can do: eat smaller meals, more often, drink or chew food slowly, exercise regularly to improve how your body digests food, drink peppermint tea."
+      ]
+    },
+    {
+      "tag": "chronic",
+      "patterns": [
+        "chronic",
+        "chronic pain"
+      ],
+      "responses": [
+        "You may have acute cholecystitis. An inflammation of the gallbladder, which may need to be removed. You should see your doctor as soon as possible.",
+        "You may have diverticulitis. An inflammation of the small pouches in the bowel that sometimes requires treatment with antibiotics in hospital. You should see your doctor as soon as possible.",
+        "You may have kidney stones. It's a small stones may be passed out in your urine, but larger stones may block the kidney tubes, and you'll need to go to hospital to have them broken up. You should see your doctor as soon as possible.",
+        "You may have appendicitis. The swelling of the appendix means your appendix will need to be removed. You should see your doctor as soon as possible."
+      ]
+    },
+    {
+      "tag": "progressive",
+      "patterns": [
+        "Progressive",
+        "Progressive pain"
+      ],
+      "responses": [
+        "You may have irritable bowel syndrome (IBS). The pain is often relieved when you go to the toilet",
+        "You may have inflammatory bowel disease (IBD), for example Crohn's disease, ulcerative colitis and endometriosis. You should see your doctor as soon as possible.",
+        "You may have an urinary tract infection (UTI) that keeps returning, you'll usually also have a burning sensation when you urinate. You should see your doctor as soon as possible.",
+        "You may have period pain. Painful muscle cramps in women that are linked to the menstrual cycle.",
+        "You may have stomach ulcer. They are open sores that develop on the lining of the stomach. Ulcers can also occur in part of the intestine just beyond the stomach. These are called duodenal ulcers. You should see your doctor as soon as possible.",
+        "You may have gastritis (inflammation of the stomach lining)",
+        "You may have constipation, a common condition that affects people of all ages. It can mean that you're not passing stools regularly or you're unable to completely empty your bowel. It isn't usually serious and can be treated by a pharmacist. Your pharmacist may recommend that you contact your GP practice if required.",
+        "You may have heartburn and acid reflux, a common condition, where acid from the stomach leaks up into the oesophagus (gullet). You may also suffer from symptoms such as heartburn and an unpleasant taste in the back of the mouth. It may just be an occasional nuisance for some people, but for others it can be a severe, lifelong problem. Your pharmacist may recommend that you contact your GP practice if required"
+      ]
+    },
+    {
+      "tag": "fever",
+      "patterns": [
+        "my temperature is above normal",
+        "i have a bit of temperature",
+        "i have a high of temperature"
+      ],
+      "responses": [
+        "Can you give me more symptoms? If you want results just type : results. Althought, it seems like you have fever. There are some advices : Offer plenty of liquids to avoid dehydration. Give acetaminophen or ibuprofen based on the doctor's recommendations. Do not give aspirin. Never use rubbing alcohol or cold baths to bring the fever down."
+      ]
+    },
+    {
+      "tag": "hypertensive disease",
+      "patterns": [
+        "pain chest",
+        "shortness of breath",
+        "dizziness",
+        "asthenia",
+        "fall",
+        "syncope",
+        "vertigo",
+        "sweat",
+        "sweating increased",
+        "palpitation",
+        "nausea",
+        "angina pectoris",
+        "pressure chest"
+      ],
+      "responses": [
+        "Can you give me more symptoms? If you want results just type : results",
+        "You may have sesonal alergie. Your pharmacist may recommend that you contact your GP practice if required"
+      ]
+    },
+    {
+      "tag": "diabetes",
+      "patterns": [
+        "polyuria",
+        "polydypsia",
+        "shortness of breath",
+        "pain chest",
+        "asthenia",
+        "nausea",
+        "orthopnea",
+        "rale",
+        "sweat",
+        "sweating increased",
+        "unresponsiveness",
+        "mental status changes",
+        "vertigo",
+        "vomiting",
+        "labored breathing"
+      ],
+      "responses": [
+        "Can you give me more symptoms? If you want results just type : results"
+      ]
+    }
+  ]
+}

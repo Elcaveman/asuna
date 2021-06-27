@@ -1,0 +1,44 @@
+{% load static %}
+<html lang="en" class="h-100"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ASUNA - Healthcare ChatBot</title>
+    <link rel="shortcut icon" href="{% static '/img/asuna.png' %}" type="image/x-icon">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
+    {% block extra_styles %}{% endblock extra_styles %}
+      
+  </head>
+  <body class="d-flex h-100 text-center text-white bg-dark" data-new-gr-c-s-check-loaded="14.1016.0" data-gr-ext-installed="">
+    
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column" id="cover">
+  {% include 'includes/navbar.html' %}
+
+  
+  {% block content %}
+      
+  {% endblock content %}
+      
+  {% include 'includes/footer.html' %}
+
+  </div>
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
+<script>
+  let loc = "{{ location }}";
+  if (loc == 'home'){
+      document.getElementById("home-link").classList.add("active");
+  }
+  if (loc == 'about'){
+      document.getElementById("about-link").classList.add("active");
+  } 
+  if (loc == 'chat'){
+      document.getElementById("chat-link").classList.add("active");
+  }
+</script>
+
+</body>
+
+
+</html>
