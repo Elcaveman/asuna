@@ -13,7 +13,7 @@ import logging
 logger = logging.getLogger(__name__)
 #just a litle decorator that checks if user is loged in if he is goes to profile else it performs the view
 def no_user_required(view):
-    def wrapper(request):
+    def wrapper(request,*args,**kwargs):
         if request.user.is_authenticated:
             return redirect('/chat')
         else:

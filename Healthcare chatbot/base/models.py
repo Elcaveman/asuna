@@ -5,20 +5,20 @@ from django.core.exceptions import ObjectDoesNotExist
 # Create your models here.
 class InterviewMetadataModel(models.Model):
     GENDER = [("M","Male"),("F","Female")]
-    age = models.IntegerField(verbose_name="Age")
-    gender = models.CharField(verbose_name="Gender",max_length=1,choices=GENDER)
-    is_smoker = models.BooleanField(verbose_name="Smoker")
-    is_pregnant = models.BooleanField(verbose_name="Pregnant")
-    is_obese = models.BooleanField(verbose_name="Obese")
-    is_injured = models.BooleanField(verbose_name="Injured")
-    has_hypertension = models.BooleanField(verbose_name="Hypertension")
+    age = models.IntegerField(verbose_name="Age",null=True)
+    gender = models.CharField(verbose_name="Gender",max_length=1,choices=GENDER,default="M")
+    is_smoker = models.BooleanField(verbose_name="Smoker",null=True)
+    is_pregnant = models.BooleanField(verbose_name="Pregnant",null=True)
+    is_obese = models.BooleanField(verbose_name="Obese",null=True)
+    is_injured = models.BooleanField(verbose_name="Injured",null=True)
+    has_hypertension = models.BooleanField(verbose_name="Hypertension",null=True)
 
     def __str__(self):
         return "gender:{},age:{},smoker:{}...".format(self.gender,self.age,self.is_smoker)
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        if (self.gender=="M" and self.is_pregnant==False):
-            return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
-        else : return None
+        if (self.gender=="M" and self.is_pregnant==True):
+            return None
+        else : return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
     
 class ChatHistory(models.Model):
     #messages (1chat history )  
@@ -54,7 +54,7 @@ class InterviewModel(models.Model):
     #chat_history
     meta = models.OneToOneField(InterviewMetadataModel,
         verbose_name="Interview Metadata",
-        on_delete=models.CASCADE)
+        on_delete=models.CASCADE,blank=True,null=True)
     chat_history = models.OneToOneField(ChatHistory, verbose_name="Chat History", on_delete=models.CASCADE,
     related_name="interview")
     results = models.JSONField(default=dict,null=True,blank=True)
@@ -79,6 +79,8 @@ class Symptom(models.Model):
         return self.name  
 class Disease(models.Model):
     name = models.CharField(verbose_name="Disease name", max_length=60,unique=True)
+    description = models.TextField(verbose_name="About the Disease",null=True,blank=True)
+    cure_method = models.TextField(verbose_name="Steps to cure the disease",null=True,blank=True)
     symptoms = models.ManyToManyField(Symptom, verbose_name="Symptoms")
     #symtoms (1 Des to N symp)    
     #special condition

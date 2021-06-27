@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 """
     urls:
         api:
-            /api/1.0.0/?
+            /api/v1/
         auth:
             /auth/login
             /auth/logout
@@ -20,6 +20,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('' , include('base.urls')),
-    #path('api/' , include('api.urls')),
+    path('api/v1/' , include('api.urls')),
     path('auth/' , include('user.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
