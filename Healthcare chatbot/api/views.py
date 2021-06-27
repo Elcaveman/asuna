@@ -61,13 +61,21 @@ def post_interview_setMeta(request,interview_id):
 @on_authenticated_user(method="POST",content_type="application/json")
 def post_interview_addMessage(request,interview_id):
     instance = InterviewModel.objects.get(pk=interview_id)
-    body_data = json.load(request.body)
+    body_data = json.loads(request.body.decode("utf-8"))
+    body_data = json.loads(body_data)
+    print("\n\n",body_data,"\n\n")
     if instance.user == request.user:
         try:
-            new_message = Message(chat=instance.chat_history,**body_data)
+            new_message = Message(
+                chat=instance.chat_history,
+                message=body_data["message"],
+                date=body_data["date"],
+                source=body_data["source"]
+            )
             new_message.save()
             return HttpResponse("Message added!",status=200)
         except Exception as e:
+            print(e)
             return HttpResponse(str(e),status=401)
     else:
         return HttpResponse("Unauthorized",status=401)

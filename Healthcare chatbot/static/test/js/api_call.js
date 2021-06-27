@@ -81,8 +81,18 @@ interview_metadata = JSON.stringify({
     is_injured:null,
     has_hypertension:null,
 })
+message_data = JSON.stringify({
+    message:"hello asuna : test message",
+    date:(new Date().toISOString()),
+    source:"I"
+})
 utils_fetch("http://localhost:8000/api/v1/interviews/init/","POST");
+
 utils_fetch("http://localhost:8000/api/v1/interviews/setMeta/995fc899-abde-49f3-b547-664bea20a35a/",
 "POST",
 body_data=interview_metadata
+);
+utils_fetch("http://localhost:8000/api/v1/interviews/addMessage/995fc899-abde-49f3-b547-664bea20a35a/",
+"POST",
+body_data=message_data
 );
