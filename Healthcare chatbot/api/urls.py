@@ -11,7 +11,13 @@ urlpatterns = [
     #*
     path('interviews/addMessage/<str:interview_id>/',post_interview_addMessage,name="interview_addMessage"),
     #*
-    path('interviews/<str:interview_id>/',get_interview,name="get_interviews"),
+    path("interviews/saveResult/<str:interview_id>/",post_interview_saveResults,name="post_interview_saveResults"),
     #*
+    path('interviews/<str:interview_id>/',get_interview,name="get_interviews"),
+     #*
     path('diseases/<int:id>/',get_disease,name="get_disease"),
+    #*
+    path('diseases/<str:name>/',get_disease_name,name="get_disease_name"),
+
+    
 ]

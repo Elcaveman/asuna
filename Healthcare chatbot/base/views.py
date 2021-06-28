@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from user.views import no_user_required
 from django.contrib.auth.decorators import login_required
+from .forms import InterviewMetadataForm
 
 @no_user_required
 def about(request):
@@ -9,7 +10,7 @@ def about(request):
 
 @login_required(login_url='/auth/')
 def chat(request):
-    context = {"location":"chat"}
+    context = {"location":"chat","metaform":InterviewMetadataForm()}
     return render(request,"base/chat.html",context)
 
 @no_user_required

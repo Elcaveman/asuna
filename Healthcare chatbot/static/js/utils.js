@@ -20,9 +20,15 @@ async function utils_fetch(url, request_method, body_data = null,stringify = tru
             let headers = {
                 'Content-Type': 'application/json'
             };
-            const response = await fetch(url, { headers, });
-            const response_json = await response.json();
-            return response_json;
+            try{
+                const response = await fetch(url, { headers, });
+                try{
+                    return response.json();
+                }
+                catch (err) {console.log(err); return false}
+            }
+            catch (err) {console.log(err); return false}
+            
         } else if (request_method === 'DELETE') {
             const csrftoken_ = getCookie('csrftoken');
             const defaults = {
@@ -69,49 +75,5 @@ async function utils_fetch(url, request_method, body_data = null,stringify = tru
             const response = await fetch(url, defaults);
             return response;
         }
-    } catch (err) { alert(err); return false }
+    } catch (err) { console.log(err); return false }
 }
-
-interview_metadata = JSON.stringify({
-    age:51,
-    gender:"F",
-    is_smoker:false,
-    is_pregnant:true,
-    is_obese:null,
-    is_injured:null,
-    has_hypertension:null,
-})
-message_data = JSON.stringify({
-    message:"hello asuna : test message",
-    date:(new Date().toISOString()),
-    source:"I"
-})
-result = JSON.stringify({
-    result:{
-        illness:"hypertensive disease",
-        probability:0.33
-    }
-})
-//interview tests
-utils_fetch("http://localhost:8000/api/v1/interviews/init/","POST");
-
-utils_fetch("http://localhost:8000/api/v1/interviews/setMeta/995fc899-abde-49f3-b547-664bea20a35a/",
-"POST",
-body_data=interview_metadata
-);
-utils_fetch("http://localhost:8000/api/v1/interviews/addMessage/995fc899-abde-49f3-b547-664bea20a35a/",
-"POST",
-body_data=message_data
-);
-utils_fetch("http://localhost:8000/api/v1/interviews/saveResult/995fc899-abde-49f3-b547-664bea20a35a/",
-"POST",
-body_data=result
-);
-
-
-//diseases test
-utils_fetch("http://localhost:8000/api/v1/diseases/1","GET");
-utils_fetch("http://localhost:8000/api/v1/diseases/hypertensive disease","GET");
-//interview_get_tests
-utils_fetch("http://localhost:8000/api/v1/interviews/","GET");
-utils_fetch("http://localhost:8000/api/v1/interviews/995fc899-abde-49f3-b547-664bea20a35a/","GET");

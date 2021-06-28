@@ -1,6 +1,6 @@
-document.querySelector("body").classList.remove();
-document.querySelector("#cover").classList.remove("cover-container",);
-document.querySelector("header").classList.add("nav-extra");
+// document.querySelector("body").classList.remove();
+// document.querySelector("#cover").classList.remove("cover-container",);
+// document.querySelector("header").classList.add("nav-extra");
 function switch_vision(){
     let model = document.getElementById("svg-model-container");
     let history = document.getElementById("history-container");
@@ -99,7 +99,6 @@ const symtoms_by_bodyPart = {
         "Stiffness of spine",
     ],
 }
-
 function bodyPartSelected(event,bodyPart){
     let div = document.getElementById("symtoms-container");
     div.querySelector("#symtoms-label").innerText = bodyPart;
@@ -138,128 +137,146 @@ function addSymtoms(event){
         //communicate();
     }
 }
-
 function addMessage(message){
     document.getElementById("message-input").value = message;
 }
 
-const send_button = document.getElementById("send-message");
-const CHATBOT_API = "http://localhost:8888/chatbot/"
-//const ASUNA_IMAGE_LINK = "https://i.pinimg.com/originals/84/e6/2e/84e62e9a9418321fdf35810aa93c6419.jpg";
-const ASUNA_IMAGE_LINK = IMG_URL;
-const msg_box = document.getElementById("message-box");
-const MONTH = [ 'January',
-'February',
-'March',
-'April',
-'May',
-'June',
-'July',
-'August',
-'September',
-'October',
-'November',
-'December' ]
-function writeToMessageBox(message,source){
-    var currentdate = new Date();
+// const send_button = document.getElementById("send-message");
+// const CHATBOT_API = "http://localhost:8888/chatbot/"
+// //const ASUNA_IMAGE_LINK = "https://i.pinimg.com/originals/84/e6/2e/84e62e9a9418321fdf35810aa93c6419.jpg";
+// const ASUNA_IMAGE_LINK = IMG_URL;
+// const msg_box = document.getElementById("message-box");
+// const MONTH = [ 'January',
+// 'February',
+// 'March',
+// 'April',
+// 'May',
+// 'June',
+// 'July',
+// 'August',
+// 'September',
+// 'October',
+// 'November',
+// 'December' ]
+// function writeToMessageBox(message,source,date=null){
+//     let currentdate;
+//     if (date){ currentdate= date;}
+//     else{currentdate = new Date();}
 
-    let timeString = `${(currentdate.getHours()<10)?"0":""}${(currentdate.getHours()<=12)?currentdate.getHours():currentdate.getHours()-12}:`;
-    timeString+= `${(currentdate.getMinutes()<10)?"0":""}${currentdate.getMinutes()} ${(currentdate.getHours()<12)?"AM":"PM"}  |  `;
-    timeString+= `${MONTH[currentdate.getMonth()]} ${(currentdate.getDay()<10)?"0":""}${currentdate.getDay()}`
+//     let timeString = `${(currentdate.getHours()<10)?"0":""}${(currentdate.getHours()<=12)?currentdate.getHours():currentdate.getHours()-12}:`;
+//     timeString+= `${(currentdate.getMinutes()<10)?"0":""}${currentdate.getMinutes()} ${(currentdate.getHours()<12)?"AM":"PM"}  |  `;
+//     timeString+= `${MONTH[currentdate.getMonth()]} ${(currentdate.getDay()<10)?"0":""}${currentdate.getDay()}`
     
-    if (message){
-    if (source =="incomming"){
-        msg_box.innerHTML +=`<div class="incoming_msg">
-        <div class="incoming_msg_img"> 
-            <img src="${ASUNA_IMAGE_LINK}" alt="Asuna"> 
-        </div>
-        <div class="received_msg">
-          <div class="received_withd_msg">
-            <p>${message}</p>
-            <span class="time_date"> ${timeString}</span></div>
-        </div>
-      </div>`
-    }
-    else if(source =="outgoing") {
-        msg_box.innerHTML +=`<div class="outgoing_msg" style="text-align:right;">
-        <div class="sent_msg">
-          <p>${message}</p>
-          <span class="time_date"> ${timeString}</span> </div>
-      </div>
-        `
-    }
-    }
-}
-const HISTORY_CONTAINER= document.getElementById("history-container");
-function writeToInterviewBow(interview_id,date_string,results,is_active){
-    HISTORY_CONTAINER.innerHTML+=`<div class="chat_list ${is_active?"active_chat":""}">
-    <div class="chat_people">
-      <div class="chat_img"> <img src="${ASUNA_IMAGE_LINK}" alt="Asuna"> </div>
-      <div class="chat_ib">
-        <h5>Interview ID: ${interview_id} <span class="chat_date">${date_string}</span></h5>
-        <p>The results to this Intervew where: You might have ${results}</p>
-      </div>
-    </div>
-      </div>`
-}
-async function sendMessage(message){
+//     if (message){
+//     if (source =="incomming"){
+//         msg_box.innerHTML +=`<div class="incoming_msg">
+//         <div class="incoming_msg_img"> 
+//             <img src="${ASUNA_IMAGE_LINK}" alt="Asuna"> 
+//         </div>
+//         <div class="received_msg">
+//           <div class="received_withd_msg">
+//             <p>${message}</p>
+//             <span class="time_date"> ${timeString}</span></div>
+//         </div>
+//       </div>`
+//     }
+//     else if(source =="outgoing") {
+//         msg_box.innerHTML +=`<div class="outgoing_msg" style="text-align:right;">
+//         <div class="sent_msg">
+//           <p>${message}</p>
+//           <span class="time_date"> ${timeString}</span> </div>
+//       </div>
+//         `
+//     }
+//     }
+// }
+// const HISTORY_CONTAINER= document.getElementById("history-container");
+// function writeToInterviewBow(interview_id,date_string,results,is_active){
+//     HISTORY_CONTAINER.innerHTML+=`<div class="chat_list ${is_active?"active_chat":""}">
+//     <div class="chat_people">
+//       <div class="chat_img"> <img src="${ASUNA_IMAGE_LINK}" alt="Asuna"> </div>
+//       <div class="chat_ib">
+//         <h5>Interview ID: ${interview_id} <span class="chat_date">${date_string}</span></h5>
+//         <p>The results to this Intervew where: You might have ${results}</p>
+//       </div>
+//     </div>
+//       </div>`
+// }
+// async function saveMessage(interview_id,message,source){
+//     let message_data = {
+//         message:message,
+//         date:(new Date().toISOString()),
+//         source:source
+//     }
+//     const resp = await utils_fetch(`http://localhost:8000/api/v1/interviews/addMessage/${interview_id}/`,
+//     "POST",
+//     body_data=message_data);
+//     if (resp.ok) return true
+//     else return null
+// }
+
+// async function sendMessage(interview_id,message){
         
-    let resp = await fetch(CHATBOT_API,{
-        method: 'POST',
-        headers:{
-        'Content-Type':'application/json'
-        },
-        body: JSON.stringify({question:message})
-    });
-    try{
-        return resp.json();
-    }
-    catch{
-        return resp.text()
-    }
-}
-async function communicate(){
-    const input = document.getElementById("message-input");
-    console.log(input);
-    let message = input.value;
-    input.value="";
-    console.log(message);
+//     let resp = await fetch(CHATBOT_API,{
+//         method: 'POST',
+//         headers:{
+//         'Content-Type':'application/json'
+//         },
+//         body: JSON.stringify({question:message})
+//     });
+//     if (saveMessage(interview_id,message,'I')){
+//         try{
+//             return resp.json();
+//         }
+//         catch{
+//             return resp.text();
+//         }
+//     }
     
-    writeToMessageBox(message,"outgoing");
-    let asuna_resp = await sendMessage(message);
-    if (asuna_resp.response.illness){
-        writeToMessageBox(`You might have ${asuna_resp.response.illness} 
-        with a likelyhood of ${asuna_resp.response.probability*100}%`,"incomming");
-    }
-    else{
-        writeToMessageBox(asuna_resp.response,"incomming");
-    }
-    //
-}
-// writeToMessageBox("hello!","outgoing");
-// writeToMessageBox("hello i'm assuna","incomming");
-writeToInterviewBow("hjgs2g42s1gs25452s","JUNE 25","Familial nonhemolytic jaundice",true)
-writeToInterviewBow("36qdjq1gs25452ddss","JUNE 24","Indigestion",false)
-writeToInterviewBow("65q144sls2ddss5452","JUNE 23","Indigestion",false)
+// }
+// async function communicate(){
+//     const input = document.getElementById("message-input");
+//     let message = input.value;
+//     input.value="";
+//     const interview_id = INTERVIEW_ID;
+//     writeToMessageBox(message,"outgoing");
+//     let asuna_resp = await sendMessage(interview_id,message);
+//     if (asuna_resp){
+//         if (asuna_resp.response.illness){
+//             // incomming for client = outgoing for server
+//             const resp_message = `You might have ${asuna_resp.response.illness} 
+//             with a likelyhood of ${asuna_resp.response.probability*100}%`
+//             writeToMessageBox(resp_message,"incomming");
+//             saveMessage(interview_id,resp_message,"O");
+//         }
+//         else{
+//             writeToMessageBox(asuna_resp.response,"incomming");
+//             saveMessage(interview_id,asuna_resp.response,"O");
+//         }
+//     }
+// }
+// writeToInterviewBow("hjgs2g42s1gs25452s","JUNE 25","Familial nonhemolytic jaundice",true)
+// writeToInterviewBow("36qdjq1gs25452ddss","JUNE 24","Indigestion",false)
+// writeToInterviewBow("65q144sls2ddss5452","JUNE 23","Indigestion",false)
 
 
-send_button.addEventListener('click',communicate);
-document.getElementById("message-input").addEventListener('keypress',(e)=>{
-    if (e.key =="Enter"){
-        communicate();
-    }
-})
-async function getResults(){
-    const message ="results"
-    let asuna_resp = await sendMessage(message);
-    if (asuna_resp.response.illness){
-        writeToMessageBox(`You might have ${asuna_resp.response.illness} 
-        with a likelyhood of ${asuna_resp.response.probability*100}%`,"incomming");
-    }
-    else{
-        writeToMessageBox(asuna_resp.response,"incomming");
-    }
-}
+// send_button.addEventListener('click',communicate);
+// document.getElementById("message-input").addEventListener('keypress',(e)=>{
+//     if (e.key =="Enter"){
+//         communicate();
+//     }
+// })
+// async function getResults(){
+//     const message ="results"
+//     let asuna_resp = await sendMessage(message);
+//     if (asuna_resp.response.illness){
+//         writeToMessageBox(`You might have ${asuna_resp.response.illness} 
+//         with a likelyhood of ${asuna_resp.response.probability*100}%`,"incomming");
+//     }
+//     else{
+//         writeToMessageBox(asuna_resp.response,"incomming");
+//     }
+// }
 document.getElementById("switch_button").addEventListener('click',switch_vision);
 document.querySelector(".inbox_chat").addEventListener('click',(e)=>{
     function is_parent(elt,parent){
@@ -275,4 +292,4 @@ document.querySelector(".inbox_chat").addEventListener('click',(e)=>{
         div.classList.add("hidden");
     }
 })
-document.getElementById("results_button").addEventListener("click",getResults);
+// document.getElementById("results_button").addEventListener("click",getResults);

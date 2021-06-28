@@ -24,18 +24,22 @@ def on_authenticated_user(method,content_type):
 
 @on_authenticated_user(method="POST",content_type="application/json")
 def post_interview_init(request):
-    new_instance = InterviewModel()
-    new_instance.user = request.user
-    chat = ChatHistory.objects.create()
-    new_instance.chat_history = chat
-    new_instance.save()
+    #use empty instance if there's one available
+    empty_instance = InterviewModel.objects.filter(user=request.user,meta=None)
+    if (empty_instance):
+        new_instance = empty_instance[0]
+    else:
+        new_instance = InterviewModel()
+        new_instance.user = request.user
+        chat = ChatHistory.objects.create()
+        new_instance.chat_history = chat
+        new_instance.save()
     return JsonResponse({"id":new_instance.pk})
     
 @on_authenticated_user(method="POST",content_type="application/json")
 def post_interview_setMeta(request,interview_id):
     instance = InterviewModel.objects.get(pk=interview_id)
     body_data = json.loads(request.body.decode("utf-8"))
-    body_data = json.loads(body_data)
     print(body_data,type(body_data))
     if instance.user == request.user:
         try:
@@ -62,8 +66,6 @@ def post_interview_setMeta(request,interview_id):
 def post_interview_addMessage(request,interview_id):
     instance = InterviewModel.objects.get(pk=interview_id)
     body_data = json.loads(request.body.decode("utf-8"))
-    body_data = json.loads(body_data)
-    print("\n\n",body_data,"\n\n")
     if instance.user == request.user:
         try:
             new_message = Message(
@@ -79,6 +81,24 @@ def post_interview_addMessage(request,interview_id):
             return HttpResponse(str(e),status=401)
     else:
         return HttpResponse("Unauthorized",status=401)
+
+@on_authenticated_user(method="POST",content_type="application/json")
+def post_interview_saveResults(request,interview_id):
+    instance = InterviewModel.objects.get(pk=interview_id)
+    body_data = json.loads(request.body.decode("utf-8"))
+    print(body_data);
+    if instance.user == request.user:
+        try:
+            new_result = body_data["result"]
+            instance.results = new_result
+            instance.save()
+            return HttpResponse("Message added!",status=200)
+        except Exception as e:
+            print(e)
+            return HttpResponse(str(e),status=401)
+    else:
+        return HttpResponse("Unauthorized",status=401)
+
 
 def get_interview(request,interview_id):
     if request.user.is_authenticated:
@@ -116,7 +136,7 @@ def get_interview(request,interview_id):
 
 def get_allInterviews(request):
     if request.user.is_authenticated:
-        instances = InterviewModel.objects.filter(user__id=request.user.id)
+        instances = InterviewModel.objects.filter(user__id=request.user.id).exclude(meta=None)
         sez = []
         for instance in instances:
             sez.append({
@@ -130,22 +150,50 @@ def get_allInterviews(request):
 
 def get_disease(request,id):
     if request.user.is_authenticated:
-        instance = Disease.objects.get(pk=id)
-        sez = {
-            "name":instance.name,
-            "description":instance.description,
-            "cure_method":instance.cure_method,
-            "symptoms":[symptom.name for symptom in instance.symptoms.all()],
-            "min_age":instance.min_age,
-            "max_age":instance.max_age,
-            "gender":instance.gender,
-            "is_smoker":instance.is_smoker,
-            "is_pregnant":instance.is_pregnant,
-            "is_obese":instance.is_obese,
-            "is_injured":instance.is_injured,
-            "has_hypertension":instance.has_hypertension
-        }
+        try:
+            instance = Disease.objects.get(pk=id)
+            sez = {
+                "name":instance.name,
+                "description":instance.description,
+                "cure_method":instance.cure_method,
+                "symptoms":[symptom.name for symptom in instance.symptoms.all()],
+                "min_age":instance.min_age,
+                "max_age":instance.max_age,
+                "gender":instance.gender,
+                "is_smoker":instance.is_smoker,
+                "is_pregnant":instance.is_pregnant,
+                "is_obese":instance.is_obese,
+                "is_injured":instance.is_injured,
+                "has_hypertension":instance.has_hypertension
+            }
 
-        return JsonResponse(sez)
+            return JsonResponse(sez)
+        except:
+            return HttpResponse("Not Found",status=404)
     else:
         return HttpResponse("Not authenticated",status=405)
+
+def get_disease_name(request,name):
+    if request.user.is_authenticated:
+        try:
+            instance = Disease.objects.get(name=name)
+            sez = {
+                "name":instance.name,
+                "description":instance.description,
+                "cure_method":instance.cure_method,
+                "symptoms":[symptom.name for symptom in instance.symptoms.all()],
+                "min_age":instance.min_age,
+                "max_age":instance.max_age,
+                "gender":instance.gender,
+                "is_smoker":instance.is_smoker,
+                "is_pregnant":instance.is_pregnant,
+                "is_obese":instance.is_obese,
+                "is_injured":instance.is_injured,
+                "has_hypertension":instance.has_hypertension
+            }
+            return JsonResponse(sez)
+        except:
+            return HttpResponse("Not Found",status=404)
+    else:
+        return HttpResponse("Not authenticated",status=405)
+
