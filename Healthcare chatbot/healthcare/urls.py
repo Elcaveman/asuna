@@ -5,7 +5,8 @@ from django.conf.urls.static import static
 """
     urls:
         api:
-            /api/v1/
+            /api/v1/interviews/
+            /api/v1/diseases/
         auth:
             /auth/login
             /auth/logout

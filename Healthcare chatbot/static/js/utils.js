@@ -1,3 +1,9 @@
+function handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+}
 async function utils_fetch(url, request_method, body_data = null,stringify = true,form=false) {
     function getCookie(name) {
         //example: to get csrf Token name must be set to 'csrftoken'
@@ -21,11 +27,16 @@ async function utils_fetch(url, request_method, body_data = null,stringify = tru
                 'Content-Type': 'application/json'
             };
             try{
-                const response = await fetch(url, { headers, });
+                const response = await fetch(url, { headers, }).then(handleErrors);
                 try{
                     return response.json();
                 }
-                catch (err) {console.log(err); return false}
+                catch{
+                    try{
+                        return response.text();
+                    }
+                    catch (err) {console.log(err); return false}
+                }
             }
             catch (err) {console.log(err); return false}
             
@@ -38,7 +49,9 @@ async function utils_fetch(url, request_method, body_data = null,stringify = tru
                     'X-CSRFToken': csrftoken_,
                 }),
             };
-            const response = await fetch(url, defaults);
+            const response = await fetch(url, defaults).then(handleErrors)
+            .then(response => console.log("ok") )
+            .catch(error => console.log(error) );;
             return true;
 
         } else if (request_method === 'POST' || request_method === 'PUT' || request_method==='PATCH') {
@@ -72,7 +85,7 @@ async function utils_fetch(url, request_method, body_data = null,stringify = tru
                 'body': stringify?JSON.stringify(body_data):body_data,
             };
             contentType?defaults['headers'].append('Content-Type',contentType):false;
-            const response = await fetch(url, defaults);
+            const response = await fetch(url, defaults).then(handleErrors)
             return response;
         }
     } catch (err) { console.log(err); return false }

@@ -220,6 +220,7 @@ img{ max-width:100%;}
   display: flex;
   padding: 2rem 2rem 0 0;
   flex-direction: row-reverse;
+  gap:10px;
 }
 
 .button{
@@ -251,5 +252,13 @@ img{ max-width:100%;}
 .button:hover{
   color: #f8f8f8;
   background-color: #00c986;
+}
+
+.button2{
+  background-color: #0c6d97;
+}
+.button2:hover{
+  color: #f8f8f8;
+  background-color: #27b5f2;
 }
 

@@ -1,0 +1,23 @@
+/*
+*Globals
+*/
+:root{
+    --modelStrokeColor:#07539b;
+    --modelHoverColor: #07539b63;
+  }
+  /*
+* Main
+*/
+
+.model-back , .model-front{
+    fill: transparent;
+    width: 168px;
+    height: 320px;
+    margin: 3px;
+}
+.model-stroke{
+    fill: var(--modelStrokeColor);
+}
+.body-area:hover{
+    fill: var(--modelHoverColor);
+}

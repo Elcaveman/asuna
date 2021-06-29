@@ -25,6 +25,7 @@ function switch_vision(){
         btn.innerHTML = "Choose<br/>Symptom";
     }
 }
+document.getElementById("switch_button").addEventListener('click',switch_vision);
 
 const symtoms_by_bodyPart = {
     head:[
@@ -277,7 +278,7 @@ function addMessage(message){
 //         writeToMessageBox(asuna_resp.response,"incomming");
 //     }
 // }
-document.getElementById("switch_button").addEventListener('click',switch_vision);
+
 document.querySelector(".inbox_chat").addEventListener('click',(e)=>{
     function is_parent(elt,parent){
         if (elt.parentElement == null){return false}

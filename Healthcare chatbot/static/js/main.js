@@ -10,6 +10,7 @@ class InterviewWindow{
     
     async init_interview(){
         const resp = await utils_fetch("http://localhost:8000/api/v1/interviews/init/","POST");
+        console.log(resp);
         const obj = await resp.json();
         document.getElementById("interview_id").innerText = obj.id;
         this.interview_id = obj.id;
@@ -19,6 +20,7 @@ class InterviewWindow{
             document.getElementById("welcome").classList.add("hidden")
             document.getElementById("meta").classList.remove("hidden")
         })
+        
     }
     meta(){
         let self = this;
@@ -46,6 +48,12 @@ class InterviewWindow{
             utils_fetch(`http://localhost:8000/api/v1/interviews/setMeta/${self.interview_id}/`,"POST",payload)
             .then(()=>self.chat_window.show_window());
             })
+
+            document.getElementById("go-back-welcome").addEventListener('click',(e)=>{
+                e.preventDefault();
+                document.getElementById("welcome").classList.remove("hidden");
+                document.getElementById("meta").classList.add("hidden");
+            })
             this.events_created=true
         }
     }
@@ -63,6 +71,7 @@ class InterviewWindow{
 class ChatWindow{
     constructor(){
         this.selected_interview = null;
+        this.selected_interview_meta = null;
         this.window_id = "chat-window"
         this.other_windows_ids = ["interview-window",]
         this.send_button = document.getElementById("send-message");
@@ -74,10 +83,14 @@ class ChatWindow{
         this.events_created = false;
     }
     async get_interviews(){
-        const resp = utils_fetch("http://localhost:8000/api/v1/interviews/","GET");
+        const resp =await utils_fetch("http://localhost:8000/api/v1/interviews/","GET");
         return resp
     }
-    writeToInterviewBox(interview_id,date_string,results){
+    async get_interview(){
+        const resp = await utils_fetch(`http://localhost:8000/api/v1/interviews/${this.selected_interview}/`,"GET")
+        return resp
+    }
+    async writeToInterviewBox(interview_id,date_string,results){
         let chat_list = document.createElement("div");
         chat_list.setAttribute("interview_id",interview_id);
         chat_list.classList.add("chat_list");
@@ -88,6 +101,7 @@ class ChatWindow{
             }
             chat_list.classList.add("active_chat");
             self.selected_interview = chat_list.getAttribute("interview_id");
+            //self.selected_interview_meta = await this.get_interview(self.selected_interview).meta
             self.load_chat();
         })
         chat_list.innerHTML+=`
@@ -99,6 +113,7 @@ class ChatWindow{
           </div>
         </div>`
         this.HISTORY_CONTAINER.appendChild(chat_list);
+        
     }
 
     async load_interviews(){
@@ -110,7 +125,7 @@ class ChatWindow{
             this.writeToInterviewBox(
                 interviews[i].interview_id,
                 dat.toDateString(),
-                interviews[i].results.illness
+                interviews[i].results.illness,
                 );
         }
     }
@@ -159,7 +174,6 @@ class ChatWindow{
         else return null
     }
     async sendMessage(message){
-        
         let resp = await fetch(this.CHATBOT_API,{
             method: 'POST',
             headers:{
@@ -171,7 +185,10 @@ class ChatWindow{
             return resp.json();
         }
         catch{
-            return resp.text();
+            try{
+                return resp.text();
+            }
+            catch(err){console.log(err)}
         }
         }
     async communicate(){
@@ -187,13 +204,25 @@ class ChatWindow{
                 await utils_fetch(`http://localhost:8000/api/v1/interviews/saveResult/${this.selected_interview}/`,
                 "POST",
                 {result:asuna_resp.response});
+
                 let disease = await utils_fetch(`http://localhost:8000/api/v1/diseases/${asuna_resp.response.illness}`,"GET");
+                
                 this.writeToMessageBox(`You might have ${asuna_resp.response.illness} 
                 with a likelyhood of ${asuna_resp.response.probability*100}%`,"incomming");
+                this.saveMessage(`You might have ${asuna_resp.response.illness} 
+                with a likelyhood of ${asuna_resp.response.probability*100}%`,"O");
                 if (disease){
-                    this.writeToMessageBox(`Symptoms:${disease.symptoms} `,"incomming");
-                    this.writeToMessageBox(`Description:${disease.description} `,"incomming");
-                    this.writeToMessageBox(`Treatement Metod:${disease.cure_method} `,"incomming");
+                    this.writeToMessageBox(`Symptoms:`,"incomming");
+                    this.writeToMessageBox(`${disease.symptoms} `,"incomming");
+                    this.saveMessage(`Symptoms:  ${disease.symptoms} `,"O");
+
+                    this.writeToMessageBox(`Description:`,"incomming");
+                    this.writeToMessageBox(`${disease.description}`,"incomming");
+                    this.saveMessage(`Description:${disease.description}`,"O");
+
+                    this.writeToMessageBox(`Treatement Metod:`,"incomming");
+                    this.writeToMessageBox(`${disease.cure_method}`,"incomming");
+                    this.saveMessage(`Treatement Metod:\n${disease.cure_method}`,"O");
                 }
             }
             else{
@@ -202,14 +231,50 @@ class ChatWindow{
             }
         }
     }
+    choose_model(){
+        function age_morph(age){
+            if (age<0) return null
+            if (age==0) return "infant"
+            if (1<=age && age<=3) return "toodler"
+            if (3<age && age<=17) return "child"
+            else return "adult"
+        }
+        function gender_morph(gender){
+            if (gender == "F") return "female";
+            else if (gender =="M") return "male";
+            else return "male"
+        }
+        function get_model_id(age,gender){
+            return `${gender_morph(gender)}-${age_morph(age)}`
+        }
+        const model_id = get_model_id(this.selected_interview_meta.age,this.selected_interview_meta.gender);
+        
+        console.log(this.selected_interview_meta.age,this.selected_interview_meta);
+        if (model_id){
+            const model_containers = document.querySelectorAll('[contain="svg-models"]');
+            for (let i=0;i<model_containers.length;i++){
+                if (model_containers[i].getAttribute("id")){
+                    if (model_containers[i].getAttribute("id") == model_id){
+                        model_containers[i].classList.remove("hidden");
+                    }
+                    else{
+                        model_containers[i].classList.add("hidden");
+                    }
+                }
+            }
+        }
+    }
     async load_chat(){
         //clean the chat
         this.msg_box.innerHTML = "";
         const reverse_dic = {"I":"outgoing","O":"incomming"}
         if(this.selected_interview){
-            const resp = await utils_fetch(`http://localhost:8000/api/v1/interviews/${this.selected_interview}/`,"GET");
+            const resp = await this.get_interview();
             
             if (this.selected_interview == resp.interview_id){
+                this.selected_interview_meta = resp.meta
+                this.choose_model();
+
                 for (let i=0;i<resp.chat_history.length;i++){
                     this.writeToMessageBox(resp.chat_history[i].message,
                         reverse_dic[resp.chat_history[i].source],
@@ -225,6 +290,7 @@ class ChatWindow{
 
         }
     }
+
     show_window(){
         document.getElementById(this.window_id).classList.remove("hidden");
         for (let i=0;i<this.other_windows_ids.length;i++){
@@ -254,4 +320,8 @@ let interview_window = new InterviewWindow(chat_window)
 chat_window.show_window();
 document.getElementById("interview_creation").addEventListener("click",(e)=>{
     interview_window.show_window();
+})
+
+document.getElementById("go-back-chat").addEventListener("click",(e)=>{
+    chat_window.show_window();
 })
