@@ -21,6 +21,8 @@ for the django app in Healthcare chatbot make sure to migrate to MySQl before ru
 ```console
 foo@bar:~$ (venv) py manage.py makemigrations
 foo@bar:~$ (venv) py manage.py migrate
+foo@bar:~$ (venv) py manage.py createsuperuser
+-- superuser created!
 foo@bar:~$ (venv) py manage.py runserver 8000
 ```
 
